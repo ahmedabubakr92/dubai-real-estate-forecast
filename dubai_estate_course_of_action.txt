@@ -1,0 +1,44 @@
+Given the nature of your project, here are some key considerations for building the best model while addressing the challenges posed by the missing data and the vast amount of information:
+
+1. Handling Missing Data:
+
+	•	Strategic Data Removal: For columns with extremely high percentages of missing values (e.g., 90%+), it may be best to remove those columns unless they are critical to the model’s objective. Columns like rent_value or pre_registration_number may not add much value if they are nearly always missing.
+	•	Enriching Important Features: Focus on enriching columns that are significant for real estate forecasting, like property type, area, transaction value, and rooms. Imputing or cross-referencing other datasets (e.g., Buildings or Projects) to fill in these key columns would be ideal.
+	•	Filling Missing Data: Consider advanced imputation methods for numerical columns with moderate missing values, like median/mean imputation or machine learning-based approaches (e.g., k-NN, MICE) for enriching crucial features.
+
+2. Selecting the Time Frame:
+
+	•	Adjusting the Five-Year Limit: You can expand the time window to 10 years to increase the sample size if the goal is long-term forecasting. A larger time frame will give you more data for training but could introduce noise from outdated trends, so a trade-off analysis is needed.
+	•	Decadal Segmentation: If you decide to work with more than 5 years, consider segmenting by decade or economic cycle (e.g., pre/post-pandemic), which will allow the model to capture distinct trends and avoid overgeneralization across different time periods.
+
+3. Merging Datasets:
+
+	•	Merging for Enrichment: The Projects and Buildings datasets provide important context, like project completion status, and valuation data gives property estimates. Merging these can enrich your dataset, especially for features that could directly impact price trends (e.g., new projects driving prices up in certain areas).
+	•	Primary Merges: Focus on merging:
+	•	Transactions with Projects: Link by project number and area, which will allow the model to consider the impact of completed or ongoing projects on prices.
+	•	Transactions with Valuations: This will enhance the price predictions by adding valuation metrics.
+
+4. Feature Engineering:
+
+	•	Room Counts and Property Subtypes: Focus on imputing missing room counts and subtype values, as these are highly relevant for real estate pricing. You can infer missing values by using area averages or by considering similar property types.
+	•	Property Types and Subtypes: If the property_sub_type has a significant number of missing values, you can enrich this field using external databases or context-based rules. For instance, villas and units in the same area often have similar characteristics.
+	•	Temporal Variables: Extract new features from instance_date such as year, month, quarter, and economic periods, which can add valuable time-based insights for the forecasting model.
+
+5. Modeling Approach:
+
+	•	Segmentation by Property Type and Area: Rather than building a singular model for the entire dataset, consider segmenting the model based on property type (e.g., villas, units) and region (e.g., area_name). Different segments might have different trends, allowing you to build specialized models.
+	•	Time-Series Forecasting: Consider using models like ARIMA or Prophet for time-series forecasting of prices over time, especially after aggregating data on a monthly or quarterly basis. You could build one model per segment (e.g., for villas in certain areas).
+	•	Combining Sale and Rent Data: For ROI calculations, merging the Transactions and Rent Contracts data will allow you to calculate potential returns, which can be useful for investor-oriented forecasting.
+
+6. Exploration and Iteration:
+
+	•	Gradual Enrichment: Start with a simplified version of the model, excluding columns with too much missing data, and iteratively add more features as you enrich the dataset (e.g., through merges, imputation, or feature engineering).
+	•	Iterative Cleaning and Feature Engineering: Clean the dataset in stages, focusing on filling missing values for the most important features, then move on to enriching other features with external data.
+
+Next Steps:
+
+	•	1. Data Cleaning and Initial Feature Selection: Begin by cleaning and selecting only the key columns (e.g., transaction prices, rooms, property types, areas) that have significant impact on the model.
+	•	2. Adjust the Time Window if Necessary: Depending on how much data remains after filtering, consider increasing the time frame to 10 years.
+	•	3. Merge with Projects and Valuations Data: After cleaning, enrich the Transactions dataset by merging it with the Projects and Valuations data to provide more context for forecasting.
+
+By taking this phased approach, you’ll maintain a balance between accuracy, practicality, and manageability. This will help you focus on meaningful features while simplifying the complexity of handling such a large dataset.

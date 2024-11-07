@@ -1,0 +1,13 @@
+# Ignore Python cache
+__pycache__/
+*.pyc
+
+# Ignore environment files
+.env
+.vscode/
+.DS_Store
+
+# Ignore data files (if not to be shared)
+data/raw/*
+data/processed/*
+*.csv
